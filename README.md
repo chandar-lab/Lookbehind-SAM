@@ -13,8 +13,8 @@ pip install -r requirements.txt
 ## Usage
 Adaptive $\alpha$:
 ```
-python example_cifar.py --minimizer Lookbehind_SAM --rho 0.05 --k 2 --alpha -1
-python example_cifar.py --minimizer Lookbehind_ASAM --rho 0.5 --k 2 --alpha -1
+python example_cifar.py --minimizer LookbehindSAM --rho 0.05 --k 2 --alpha -1
+python example_cifar.py --minimizer LookbehindASAM --rho 0.5 --k 2 --alpha -1
 ```
 To use a static $\alpha$, set $\alpha$ to a value larger than 0 and smaller than 1 (e.g. ```--alpha 0.5```). In the paper, we used $\alpha \in \\{0.2, 0.5, 0.8\\}$. 
 
