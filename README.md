@@ -23,7 +23,7 @@ To use CIFAR-100, set ```--dataset CIFAR100``` and, optionally, ```--model resne
 ## Citation
 ```
 @inproceedings{
-lookbehindsam,
+mordido2024lookbehindsam,
 title={Lookbehind-{SAM}: k steps back, 1 step forward},
 author={Mordido, Gon{\c{c}}alo and Malviya, Pranshu and Baratin, Aristide and Chandar, Sarath},
 booktitle={Forty-first International Conference on Machine Learning},
