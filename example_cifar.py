@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from models.resnet import resnet34, resnet50
-from lookbehind import Lookbehind_ASAM, Lookbehind_SAM
+from lookbehind import LookbehindASAM, LookbehindSAM
 
 def load_cifar(data_loader, batch_size, num_workers=1):
     if data_loader == CIFAR10:
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default='CIFAR10', type=str, choices=['CIFAR10', 'CIFAR100'], help="Name of the dataset.")
     parser.add_argument("--model", default='resnet34', type=str, choices=['resnet34', 'resnet50'], help="Name of model architecure.")
-    parser.add_argument("--minimizer", default='Lookbehind_SAM', type=str, choices=['Lookbehind_ASAM', 'Lookbehind_SAM'], help="Name of the minimizer.")
+    parser.add_argument("--minimizer", default='LookbehindSAM', type=str, choices=['LookbehindASAM', 'LookbehindSAM'], help="Name of the minimizer.")
     parser.add_argument("--lr", default=0.1, type=float, help="Initial learning rate.")
     parser.add_argument("--momentum", default=0.9, type=float, help="Momentum.")
     parser.add_argument("--weight_decay", default=5e-4, type=float, help="Weight decay factor.")

@@ -69,7 +69,7 @@ class SAM(ASAM):
             p.add_(eps)
         self.optimizer.zero_grad()
 
-class Lookbehind_ASAM(ASAM):
+class LookbehindASAM(ASAM):
     def __init__(self, optimizer, model, rho=0.5, eta=0.01, k_steps=5, alpha=0.5):
         self.optimizer = optimizer
         self.model = model
@@ -79,9 +79,6 @@ class Lookbehind_ASAM(ASAM):
         self.k_steps = k_steps
         self.alpha = alpha
         self.k = 0
-        if self.alpha == -1:
-            self.scheduler = None
-            self.tmp_alphas = []
 
         for group in self.optimizer.param_groups:
             for p in group['params']:
@@ -93,9 +90,6 @@ class Lookbehind_ASAM(ASAM):
                 if self.alpha == -1:
                     param_state['first_descent_step'] = torch.zeros_like(p.data)
 
-
-    def set_scheduler(self, scheduler):
-        self.scheduler = scheduler
 
     def get_current_k(self):
         return self.k
@@ -162,8 +156,6 @@ class Lookbehind_ASAM(ASAM):
 
         if self.k >= self.k_steps:
             self.k = 0
-            if self.alpha == -1: #adaptive alpha
-                self.tmp_alphas = []
 
             # Lookbehind and cache the current optimizer parameters
             for group in self.optimizer.param_groups:
@@ -174,14 +166,13 @@ class Lookbehind_ASAM(ASAM):
                         cos_sim = torch.nn.CosineSimilarity(dim=0)
                         tmp_alpha = cos_sim((param_state['first_descent_step']-param_state['cached_slow_params']).flatten(), (p.data-param_state['cached_slow_params']).flatten())
                         tmp_alpha = ((tmp_alpha+1.)/2.).item()
-                        self.tmp_alphas.append(tmp_alpha)
                         p.data.mul_(tmp_alpha).add_(param_state['cached_slow_params'], alpha=1.0 - tmp_alpha)
                     else:
                         p.data.mul_(self.alpha).add_(param_state['cached_slow_params'], alpha=1.0 - self.alpha)
                     param_state['cached_params'].copy_(p.data)
                     param_state['cached_slow_params'].copy_(p.data)
 
-class Lookbehind_SAM(Lookbehind_ASAM):
+class LookbehindSAM(LookbehindASAM):
     @torch.no_grad()
     def ascent_step(self):
         grads = []
